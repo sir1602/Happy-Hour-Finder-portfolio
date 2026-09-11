@@ -1,6 +1,6 @@
 
-import { calculateDistance } from '../utils/location';
-import { Deal } from '../types';
+import { calculateDistance } from '../utils/location.ts';
+import type { Deal } from '../types.ts';
 
 const LARGE_DEALS_COUNT = 1000;
 const userLocation = { latitude: 41.8781, longitude: -87.6298 }; // Chicago

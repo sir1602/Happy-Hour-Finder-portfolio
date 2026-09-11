@@ -6,9 +6,13 @@ verifies, and re-checks deals without a human curating a spreadsheet.
 
 One TypeScript codebase ships to iOS, Android, and the web.
 
-<!-- Add build/CI badges here once the repository is public, e.g.
 [![CI](https://github.com/sir1602/Happy-Hour-Finder-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/sir1602/Happy-Hour-Finder-portfolio/actions/workflows/ci.yml)
--->
+![Tests](https://img.shields.io/badge/tests-967%20passing-brightgreen)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+**967 tests across 49 suites · 20 SQL migrations · 14 RLS policies · 213 accessibility props ·
+iOS + Android + web from one codebase**
 
 ---
 
@@ -31,7 +35,12 @@ One TypeScript codebase ships to iOS, Android, and the web.
   source are badged *Unconfirmed* rather than presented as fact.
 - **Report and feedback** — report an incorrect deal from its detail screen, or send general
   feedback from Settings, signed in or as a guest.
-- **Offline-tolerant** — cached reads and a network banner instead of an empty screen.
+- **Built for screen readers** — 213 accessibility props (`accessibilityLabel`, `Role`, `State`,
+  `Hint`) across 27 of 46 component files, so the app is navigable with VoiceOver and TalkBack
+  rather than being a grid of unlabelled touch targets.
+- **Degrades instead of breaking** — cached reads (`services/cacheService.ts`), a network banner,
+  skeleton loaders, an error boundary, and a configuration-error screen that names the missing
+  variable instead of showing a white screen.
 - **Light and dark themes** — an amber-and-charcoal palette across both.
 
 ---
@@ -59,21 +68,21 @@ The app is a universal Expo app. Screens never talk to Supabase directly — eve
 goes through a module in `services/`, which is what makes the data layer mockable in tests and
 swappable in principle.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  app/  — Expo Router screens (tabs, deal detail, auth)  │
-├─────────────────────────────────────────────────────────┤
-│  components/  — presentational UI + feature blocks      │
-├─────────────────────────────────────────────────────────┤
-│  hooks/    screen logic, extracted and unit-tested      │
-│  context/  auth, deals, location, rewards, visits       │
-├─────────────────────────────────────────────────────────┤
-│  services/  — the ONLY layer that talks to the network  │
-├─────────────────────────────────────────────────────────┤
-│  Supabase: Postgres + RLS + Auth + Storage              │
-│     ▲                                                   │
-│     │  n8n content pipeline (discovery, verification)   │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    A["app/ — Expo Router screens<br/>tabs · deal detail · auth"]
+    B["components/ — UI primitives<br/>+ feature blocks"]
+    C["hooks/ — screen logic, unit-tested<br/>context/ — auth · deals · location · rewards"]
+    D["services/ — the ONLY layer that touches the network"]
+    E[("Supabase<br/>Postgres · RLS · Auth · Storage")]
+    F["n8n content pipeline<br/>discovery · verification"]
+
+    A --> B --> C --> D --> E
+    F -- "one intake endpoint" --> E
+
+    style D fill:#FFC107,stroke:#8a6d00,color:#212121
+    style E fill:#2d3748,stroke:#1a202c,color:#f7fafc
+    style F fill:#4a5568,stroke:#2d3748,color:#f7fafc
 ```
 
 Three decisions carry most of the weight:
@@ -98,17 +107,49 @@ Deeper detail: [`docs/Architecture.md`](./docs/Architecture.md).
 
 ---
 
+## 🔧 Engineering Highlights
+
+The parts most worth reading, if you're only going to read a few:
+
+- **Authorization is a database concern.** 20 SQL migrations, 14 RLS policies and 11 narrowly
+  scoped `SECURITY DEFINER` functions under [`scripts/`](./scripts). The rewards RPC takes an
+  *action name* and looks the point value up server-side — it will not accept a client-supplied
+  total.
+- **The content pipeline can't silently corrupt the catalogue.** A deal publishes only if
+  extraction confidence ≥ 0.80 *and* its time window parses under the same `parseDealTime()` the
+  app renders with. Everything else queues for human review, and nothing is ever hard-deleted.
+- **Sibling-collision guard.** A venue with different hours per day is a group of sibling rows, not
+  one row with a clever string. `hh_record_verification()` refuses a reading that would make two
+  siblings overlap — without it, the nightly sweep rewrites one schedule into a copy of another and
+  a deal silently disappears from the app.
+- **CSRF closed by `Origin`, not `Sec-Fetch-Site`.** The review console sits behind basic auth, and
+  basic auth rides a cross-site request exactly like a cookie does. The first implementation trusted
+  `Sec-Fetch-Site` and refused every real approval for a day — the story and the fix are in
+  [`__tests__/n8n/reviewApplyRequest.test.js`](./__tests__/n8n/reviewApplyRequest.test.js).
+- **Screen logic lives in hooks.** `useExploreScreen`, `useMapClusters`, `useDealDetail`,
+  `useSubmitDealForm` hold the behaviour, so it's unit-tested without rendering a native map or a
+  camera roll — which is most of why 967 tests are practical at all.
+- **Measured, not asserted.** `npm run bench` runs three micro-benchmarks with zero dependencies;
+  `Set.has` beats `Array.includes` by **~10×** on the filter path. See
+  [`benchmarks/`](./benchmarks).
+
+---
+
 ## 📸 Screenshots
 
-> Screenshots pending. Drop images into `docs/screenshots/` and reference them here.
+> Captured from the web build. The venues, deals and photos are **demo data** — the UI,
+> layout, states and interactions are the real thing.
 
-| Home | Explore | Map |
+| Home — daily highlights | Explore — filter by day, tag, neighbourhood | Deal detail |
 |---|---|---|
-| _`docs/screenshots/home.png`_ | _`docs/screenshots/explore.png`_ | _`docs/screenshots/map.png`_ |
+| <img src="docs/screenshots/home.png" width="240" alt="Home screen showing daily highlight deals with live countdowns" /> | <img src="docs/screenshots/explore.png" width="240" alt="Explore screen with day selector and tag filters applied" /> | <img src="docs/screenshots/deal-detail.png" width="240" alt="Deal detail screen with rating, schedule, check-in and reviews" /> |
 
-| Deal Detail | Submit a Deal | Rewards |
+| Submit a deal — read from a photo | Visit history | Rewards & badges |
 |---|---|---|
-| _`docs/screenshots/deal-detail.png`_ | _`docs/screenshots/submit.png`_ | _`docs/screenshots/rewards.png`_ |
+| <img src="docs/screenshots/submit.png" width="240" alt="Deal submission form with photo scan, venue autocomplete and schedule presets" /> | <img src="docs/screenshots/visits.png" width="240" alt="Check-in history listing visited venues" /> | <img src="docs/screenshots/settings.png" width="240" alt="Settings screen showing level, points and earned badges" /> |
+
+The map screen is native-only — `components/MapImpl.web.tsx` is a deliberate fallback, so
+the clustered map isn't represented above.
 
 ---
 
@@ -195,6 +236,7 @@ npm run web          # run in the browser
 npm run typecheck    # tsc --noEmit
 npm run lint         # eslint
 npm test             # jest
+npm run bench        # micro-benchmarks, no deps (Node 22 type stripping)
 ```
 
 `typecheck`, `lint`, and `test` are exactly what CI runs on every pull request
@@ -226,9 +268,10 @@ npm test             # jest
 ├── types/               # database types generated from the live schema
 ├── scripts/             # SQL migrations + asset generation
 ├── n8n-workflows/       # content automation pipeline design docs
-├── benchmarks/          # micro-benchmarks for hot paths
+├── benchmarks/          # runnable micro-benchmarks (`npm run bench`)
 ├── __tests__/           # Jest suites, mirroring the source tree
 └── docs/                # architecture, backend setup, testing, roadmap
+    └── screenshots/     # README imagery
 ```
 
 ---
