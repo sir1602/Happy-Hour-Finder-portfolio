@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2022",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "module": "ESNext",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "nativewind/types",
+      "jest"
+    ],
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "expo-router": [
+        "./node_modules/expo-router/build/index.d.ts"
+      ],
+      "react-native-safe-area-context": [
+        "./node_modules/react-native-safe-area-context/lib/typescript/src/index.d.ts"
+      ],
+      "@/*": [
+        "./*"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "extends": "expo/tsconfig.base.json"
+}
+

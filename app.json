@@ -1,0 +1,72 @@
+{
+  "expo": {
+    "name": "Happy Hour Finder",
+    "slug": "happy-hour-finder",
+    "version": "1.0.0-alpha.1",
+    "scheme": "happyhourfinder",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFC107"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.happyhourfinder",
+      "usesAppleSignIn": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#212121"
+      },
+      "package": "com.example.happyhourfinder",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-status-bar",
+      "expo-web-browser",
+      "expo-apple-authentication",
+      "expo-localization",
+      "@sentry/react-native",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#FFC107"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to show happy hours near you.",
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to show happy hours near you."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos so you can attach a picture of the happy hour special.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to use your camera so you can take a picture of the happy hour special."
+        }
+      ]
+    ],
+    "extra": {
+      "router": {}
+    }
+  }
+}

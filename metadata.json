@@ -1,0 +1,7 @@
+{
+  "name": "Happy Hour Finder",
+  "description": "An Android and iOS application to discover the best happy hour deals in your city. Browse trending deals, save your favorite spots, and find new highlights daily.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

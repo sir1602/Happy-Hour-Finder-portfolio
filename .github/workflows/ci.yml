@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch makes the in-flight run obsolete, so cancel it
+# rather than paying for both.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Typecheck, lint, and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # React Native 0.85+ (Expo SDK 56+) dropped Node below 20.19.4.
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        id: install
+        run: npm ci
+
+      # The three checks below are independent, so each runs even when an
+      # earlier one fails. One CI run then reports every problem at once,
+      # instead of surfacing them one push at a time. They are still skipped
+      # if the install failed, since none of them could say anything useful.
+      - name: Typecheck
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run typecheck
+
+      # Note this does not fail on warnings. eslint-config-expo enables the
+      # React Compiler react-hooks rules, which .eslintrc.cjs downgrades to
+      # warnings against pre-existing code; failing here would gate every PR on
+      # that unrelated cleanup. Errors still fail the build.
+      - name: Lint
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run lint
+
+      - name: Test
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm test -- --ci
