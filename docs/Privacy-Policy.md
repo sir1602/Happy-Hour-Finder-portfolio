@@ -91,7 +91,7 @@ Crash reports and analytics events are retained according to the schedules of Se
 - **Notifications** — turn off in Settings, or revoke in device settings.
 - **Profile** — edit your display name and avatar in Settings.
 - **Delete your account** — Settings → Delete Account, which permanently erases your data.
-- **Access, correction, portability, objection** — depending on where you live (e.g. under GDPR or CCPA), you may have additional rights over your data. Contact us at `[CONTACT EMAIL]` and we'll respond within the timeframe the applicable law requires.
+- **Access, correction, portability, objection** — depending on where you live (e.g. under GDPR or CCPA), you may have additional rights over your data. Contact us at `SirAddo11@gmail.com` and we'll respond within the timeframe the applicable law requires.
 
 ## Children
 
@@ -115,6 +115,6 @@ We'll update the "Last updated" date above when this policy changes, and notify 
 
 ## Contact
 
-Questions about this policy or your data: `[CONTACT EMAIL]`
+Questions about this policy or your data: `SirAddo11@gmail.com`
 
 Governing law: Not specified for the closed alpha; confirm before production release.
