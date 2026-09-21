@@ -1,16 +1,14 @@
 # Privacy Policy — Happy Hour Chicago
 
-**Last updated: 2026-08-07**
+**Last updated: 2026-09-21**
 
-> **Draft — needs review before publication.** This policy was written to accurately describe what the app's code actually collects, stores, and transmits as of this date. Two things must happen before it goes live:
-> 1. Fill in the placeholders marked `[…]` below (legal entity name, contact email, jurisdiction).
-> 2. Have it reviewed by someone qualified to advise on GDPR/CCPA obligations for your jurisdiction and user base. This is a factual description of the app's data flows, not legal advice.
+> **Draft — needs review before publication.** This policy describes what the app's code actually collects, stores, and transmits. It is an alpha draft and should be reviewed for applicable privacy-law obligations before production release.
 
 ---
 
 ## Who we are
 
-Happy Hour Chicago ("the app", "we", "us") is operated by `[LEGAL ENTITY NAME]`. You can reach us at `[CONTACT EMAIL]`.
+Happy Hour Chicago ("the app", "we", "us") is operated by `Simon Addo`. You can reach us at `SirAddo11@gmail.com`.
 
 ## What we collect
 
@@ -119,4 +117,4 @@ We'll update the "Last updated" date above when this policy changes, and notify 
 
 Questions about this policy or your data: `[CONTACT EMAIL]`
 
-Governing law: `[JURISDICTION]`
+Governing law: Not specified for the closed alpha; confirm before production release.
