@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Happy Hour Finder case study by Simon Addo. Product design, data architecture, automation, security, and testing.">
+  <title>Happy Hour Finder — Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="nav container">
+      <a class="brand" href="./">SA<span>.</span></a>
+      <div class="nav-links">
+        <a href="./#work">Work</a>
+        <a href="./#approach">Approach</a>
+        <a href="./#about">About</a>
+        <a class="nav-cta" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noreferrer">Source ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="case-hero container">
+      <a class="back-link" href="./">← Back to portfolio</a>
+      <div class="eyebrow">CASE STUDY · 2026</div>
+      <h1>Happy Hour Finder</h1>
+      <p class="case-subtitle">Designing a discovery product where the hardest part is not finding deals—it's knowing when to trust them.</p>
+      <div class="case-meta">
+        <div><span>Role</span><strong>Product + Engineering</strong></div>
+        <div><span>Scope</span><strong>Mobile, Web, Backend, Data</strong></div>
+        <div><span>Location</span><strong>Chicago, IL</strong></div>
+        <div><span>Stack</span><strong>Expo · TypeScript · Supabase</strong></div>
+      </div>
+    </section>
+
+    <section class="case-image container">
+      <img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/explore.png" alt="Happy Hour Finder explore screen">
+    </section>
+
+    <section class="case-section container">
+      <div class="case-index">01</div>
+      <div class="case-content">
+        <div class="eyebrow">THE PROBLEM</div>
+        <h2>Happy hour information is useful only when people can trust it.</h2>
+        <p>Restaurant specials are fragmented across menus, websites, social posts, and changing schedules. A discovery app can make the experience feel simple while hiding a difficult data problem underneath.</p>
+        <p>The product goal became broader than “show nearby deals.” It needed to help someone answer: <strong>What is happening, where is it, when does it end, and how confident should I be that this is still true?</strong></p>
+      </div>
+    </section>
+
+    <section class="case-section split-section">
+      <div class="container split-grid">
+        <div>
+          <div class="eyebrow">02 / PRODUCT</div>
+          <h2>A discovery loop built around action.</h2>
+          <p>The core experience moves from discovery → filtering → deal detail → visit. Daily highlights surface trending, newly added, and ending-soon deals, while Explore supports neighbourhood, deal type, price, and time-of-day filters.</p>
+        </div>
+        <div class="feature-list">
+          <div><span>01</span><strong>Explore</strong><small>Server-side full-text search and real filters.</small></div>
+          <div><span>02</span><strong>Decide</strong><small>Deal schedules, confidence states, and venue details.</small></div>
+          <div><span>03</span><strong>Visit</strong><small>Check-ins, points, badges, and visit history.</small></div>
+          <div><span>04</span><strong>Contribute</strong><small>Photo-based deal submission with user correction.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section container">
+      <div class="case-index">03</div>
+      <div class="case-content wide">
+        <div class="eyebrow">DATA + AUTOMATION</div>
+        <h2>Automation with a safety valve.</h2>
+        <p>The content pipeline uses n8n to discover and validate deal information. OCR + LLM extraction can turn a photographed menu board into structured data, but extraction is never allowed to write directly to the catalogue.</p>
+        <div class="callout">
+          <div class="callout-number">0.80</div>
+          <div><strong>Confidence threshold</strong><p>Deals publish only when extraction confidence reaches the configured threshold <em>and</em> the time window passes the same parsing rules used by the app.</p></div>
+        </div>
+        <div class="callout">
+          <div class="callout-number">HUMAN</div>
+          <div><strong>Review queue</strong><p>Low-confidence or ambiguous records are routed for review rather than silently published. A low-confidence reading cannot overwrite a higher-confidence record.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section section-dark">
+      <div class="container">
+        <div class="case-index">04</div>
+        <div class="case-content wide">
+          <div class="eyebrow">ARCHITECTURE</div>
+          <h2>Keep the client thin. Put trust where the data lives.</h2>
+          <div class="architecture">
+            <div class="arch-node">Expo Router<br><small>screens</small></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">Hooks<br><small>screen logic</small></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node accent-node">Services<br><small>network boundary</small></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">Supabase<br><small>Postgres · Auth · RLS</small></div>
+          </div>
+          <p>Every network read/write goes through the services layer. Database authorization is enforced with Row Level Security, while privileged actions use narrowly scoped server-side functions rather than broad client permissions.</p>
+          <p>This structure makes the app easier to test and keeps business-critical rules out of the UI.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section container">
+      <div class="case-index">05</div>
+      <div class="case-content wide">
+        <div class="eyebrow">ENGINEERING QUALITY</div>
+        <h2>Build quality into the project, not at the end.</h2>
+        <div class="metrics">
+          <div><strong>967</strong><span>tests across 49 suites</span></div>
+          <div><strong>20</strong><span>SQL migrations</span></div>
+          <div><strong>14</strong><span>RLS policies</span></div>
+          <div><strong>213</strong><span>accessibility props</span></div>
+        </div>
+        <p>The test strategy isolates screen behaviour in hooks so most logic can be tested without rendering native maps or camera flows. The app also includes cached reads, network-state feedback, skeleton loading, error boundaries, and explicit configuration-error states.</p>
+      </div>
+    </section>
+
+    <section class="case-section container gallery">
+      <div class="eyebrow">06 / THE PRODUCT</div>
+      <h2>From discovery to detail.</h2>
+      <div class="gallery-grid">
+        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/home.png" alt="Home screen"><figcaption>Daily highlights</figcaption></figure>
+        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/deal-detail.png" alt="Deal detail screen"><figcaption>Deal detail</figcaption></figure>
+        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/submit.png" alt="Submit deal screen"><figcaption>Submit from a photo</figcaption></figure>
+        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/settings.png" alt="Rewards and settings screen"><figcaption>Rewards + profile</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="takeaway container">
+      <div class="eyebrow">07 / TAKEAWAY</div>
+      <h2>The product lesson: automate the work, not the judgment.</h2>
+      <p>Happy Hour Finder started as a local discovery idea and became a systems-design exercise: how do you combine messy external information, automation, user-generated data, security, and a consumer interface without making the user absorb the complexity?</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noreferrer">View source on GitHub ↗</a>
+        <a class="button button-ghost" href="./">Back to portfolio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <span>© 2026 Simon Addo</span>
+    <span>Happy Hour Finder case study</span>
+  </footer>
+</body>
+</html>
