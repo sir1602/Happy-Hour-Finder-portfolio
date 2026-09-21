@@ -1,10 +1,12 @@
 # Happy Hour Finder
 
-A cross-platform mobile app for discovering happy hour deals nearby — built with Expo and React
-Native, backed by Supabase, and kept up to date by an automated content pipeline that scrapes,
-verifies, and re-checks deals without a human curating a spreadsheet.
+A cross-platform Chicago-area happy hour discovery app built with Expo, React Native, TypeScript, and Supabase.
+
+**Portfolio project:** I designed and built the product, mobile/web client, PostgreSQL backend, automated data pipeline, security model, and test suite. The system discovers restaurant deals, validates them, and routes uncertain results to human review instead of silently publishing bad data.
 
 One TypeScript codebase ships to iOS, Android, and the web.
+
+**[Architecture](./docs/Architecture.md) · [Content Pipeline](./n8n-workflows/README.md) · [Device Testing](./docs/Device-Testing.md) · [Privacy Policy](./docs/Privacy-Policy.md)**
 
 [![CI](https://github.com/sir1602/Happy-Hour-Finder-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/sir1602/Happy-Hour-Finder-portfolio/actions/workflows/ci.yml)
 ![Tests](https://img.shields.io/badge/tests-967%20passing-brightgreen)
@@ -300,7 +302,7 @@ The longer-range plan is in [`docs/Roadmap.md`](./docs/Roadmap.md).
 - [Device Testing](./docs/Device-Testing.md) — building a dev client and verifying what CI cannot
 - [Content Pipeline](./n8n-workflows/README.md) — how deals are discovered and verified
 - [Roadmap](./docs/Roadmap.md) — planned features
-- [Privacy Policy](./docs/Privacy-Policy.md) — template; placeholders must be completed before release
+- [Privacy Policy](./docs/Privacy-Policy.md) — alpha draft; legal review required before production release
 
 ---
 
