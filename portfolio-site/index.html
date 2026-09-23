@@ -3,108 +3,231 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Simon Addo — software developer portfolio. Happy Hour Finder product case study.">
-  <title>Simon Addo — Product & Data Portfolio</title>
+  <title>Simon Addo — Software Developer, Data & Automation</title>
+  <meta name="description" content="Simon Addo is a Chicago-based software developer who builds data pipelines, automation, and products that turn messy data into useful experiences.">
+  <meta name="author" content="Simon Addo">
+  <meta name="theme-color" content="#f5f2eb">
+  <link rel="canonical" href="https://sir1602.github.io/Happy-Hour-Finder-portfolio/">
+  <link rel="icon" href="../site-assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../site-assets/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Simon Addo — Software Developer, Data & Automation">
+  <meta property="og:description" content="I build products that turn messy data into useful experiences. Featured: Happy Hour Finder, a Chicago deal-discovery app with a human-in-the-loop data pipeline.">
+  <meta property="og:url" content="https://sir1602.github.io/Happy-Hour-Finder-portfolio/">
+  <meta property="og:image" content="https://sir1602.github.io/Happy-Hour-Finder-portfolio/site-assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Simon Addo",
+    "jobTitle": "Software Developer",
+    "email": "mailto:SirAddo11@gmail.com",
+    "address": { "@type": "PostalAddress", "addressLocality": "Chicago", "addressRegion": "IL" },
+    "alumniOf": "University of Illinois Urbana-Champaign",
+    "url": "https://sir1602.github.io/Happy-Hour-Finder-portfolio/",
+    "sameAs": ["https://github.com/sir1602"]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="nav-wrap">
-    <nav class="nav container">
-      <a class="brand" href="./">SA<span>.</span></a>
+    <nav class="nav container" aria-label="Primary">
+      <a class="brand" href="./" aria-label="Simon Addo, home">SA<span>.</span></a>
       <div class="nav-links">
         <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
         <a href="#approach">Approach</a>
         <a href="#about">About</a>
-        <a class="nav-cta" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a class="nav-cta ghost" href="https://github.com/sir1602" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:SirAddo11@gmail.com">Contact</a>
       </div>
     </nav>
   </header>
 
-  <main>
-    <section class="hero container">
-      <div class="eyebrow">SOFTWARE · DATA · PRODUCT</div>
-      <h1>I build products that turn messy data into <em>useful experiences.</em></h1>
-      <p class="hero-copy">I'm Simon Addo, a software developer focused on data-driven systems, automation, and products that solve practical problems. This site highlights the thinking behind my work—not just the code.</p>
+  <main id="main">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="eyebrow">Software · Data · Automation</div>
+      <h1 id="hero-title">I build products that turn messy data into <em>useful experiences.</em></h1>
+      <p class="hero-copy">I'm Simon Addo, a Chicago-based software developer. By day I run ETL pipelines that move millions of records a week for Fortune 100 marketing programs. On my own time I build products like Happy Hour Finder, where the hard part isn't the UI but deciding which data to trust.</p>
       <div class="hero-actions">
-        <a class="button button-primary" href="#work">View featured work ↓</a>
-        <a class="button button-ghost" href="#about">About me</a>
+        <a class="button button-primary" href="./case-study.html">Read the case study →</a>
+        <a class="button button-ghost" href="mailto:SirAddo11@gmail.com">Email me</a>
       </div>
-      <div class="hero-note"><span></span> Currently building: Happy Hour Finder — a Chicago-area discovery product</div>
+      <div class="hero-note">
+        <span>Software Developer II at Venture Solutions (Taylor Corporation)</span>
+        <span>B.S. Systems Engineering &amp; Design, UIUC</span>
+      </div>
     </section>
 
-    <section id="work" class="section container">
-      <div class="section-label">01 / FEATURED PROJECT</div>
+    <section class="container" aria-label="Highlights">
+      <div class="proof">
+        <div><strong>Millions</strong><span>of records processed weekly through ETL I maintain</span></div>
+        <div><strong>−25%</strong><span>server resource use from an archival program I architected</span></div>
+        <div><strong>80+</strong><span>SaaS implementations led at Pitney Bowes</span></div>
+        <div><strong>967</strong><span>automated tests in my Happy Hour Finder codebase</span></div>
+      </div>
+    </section>
+
+    <section id="work" class="section container" aria-labelledby="work-title">
+      <div class="section-label"><b>01</b> / Featured project</div>
+      <h2 id="work-title" class="visually-hidden">Featured project</h2>
       <article class="project-card">
         <div class="project-visual">
-          <img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/home.png" alt="Happy Hour Finder home screen">
-          <div class="visual-badge">LIVE PRODUCT CONCEPT</div>
+          <div class="phone"><img src="../site-assets/home.webp" width="620" height="1333" alt="Daily Highlights screen listing Rooftop Lounge and Brick Oven deals, each with an Active, ends in 50 minutes badge"></div>
+          <div class="phone"><img src="../site-assets/deal-detail.webp" width="620" height="1333" alt="Deal detail screen for Taco Bar showing a $3 tacos and $5 margaritas deal from 4 to 6 PM with a Check In button" loading="lazy"></div>
+          <div class="visual-badge">WORKING APP · iOS · ANDROID · WEB</div>
         </div>
         <div class="project-info">
-          <div class="project-kicker">Mobile + Web · Chicago</div>
-          <h2>Happy Hour Finder</h2>
-          <p class="project-lead">A cross-platform app for discovering real-time happy hours, comparing deals, and finding places to meet up after work.</p>
-          <p>The interesting problem isn't the map. It's the data behind it: deals change, sources disagree, and bad information can quickly make a discovery product untrustworthy. I designed the product around that constraint.</p>
-          <div class="tags"><span>Expo</span><span>React Native</span><span>TypeScript</span><span>Supabase</span><span>Postgres</span><span>n8n</span></div>
-          <a class="text-link" href="./case-study.html">Read the full case study <span>→</span></a>
+          <div class="project-kicker">Product + Engineering · Chicago</div>
+          <h3>Happy Hour Finder</h3>
+          <p class="project-lead">A cross-platform app for finding happy hours happening now, comparing deals, and picking a place to meet after work.</p>
+          <p>The map is the easy part. The hard part is the data: deals change, sources disagree, and one wrong listing makes people stop trusting the app. So I designed the whole system around that.</p>
+          <ul class="project-points">
+            <li>n8n pipeline that discovers, re-checks, and scores deals nightly</li>
+            <li>Publish gate: confidence ≥ 0.80, or it waits for a human</li>
+            <li>Postgres with Row Level Security; 967 tests in CI</li>
+          </ul>
+          <ul class="tags" aria-label="Tech stack">
+            <li>Expo</li><li>React Native</li><li>TypeScript</li><li>Supabase</li><li>Postgres</li><li>n8n</li>
+          </ul>
+          <div class="project-links">
+            <a class="button button-primary" href="./case-study.html">Read the case study →</a>
+            <a class="text-link" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noopener noreferrer">Source code<span>↗</span></a>
+          </div>
         </div>
       </article>
     </section>
 
-    <section id="approach" class="section section-dark">
+    <section id="experience" class="section container" aria-labelledby="exp-title">
+      <div class="section-label"><b>02</b> / Experience</div>
+      <div class="section-head">
+        <h2 id="exp-title">Five years moving data where it needs to go.</h2>
+        <p>From data pipelines and client implementations to program management, the common thread is taking messy operational data and making it reliable.</p>
+      </div>
+      <ol class="timeline">
+        <li class="role">
+          <div class="role-when">Nov 2025 – Present <span class="now">NOW</span></div>
+          <div>
+            <h3>Venture Solutions (Taylor Corporation) <span><i class="sep" aria-hidden="true">· </i>Software Developer II, Data &amp; ETL</span></h3>
+            <ul>
+              <li>Run high-volume ETL pipelines processing <strong>millions of records weekly</strong> for direct-mail and digital campaigns for Fortune 100 clients.</li>
+              <li>Architected a custom archival program that cut <strong>server resource consumption by 25%</strong>, improving throughput on time-sensitive production cycles.</li>
+              <li>Build end-to-end workflows in SQL, Python, and SSIS that power personalized mail, email, and SMS programs.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="role">
+          <div class="role-when">Feb 2025 – Aug 2025</div>
+          <div>
+            <h3>HC3 <span><i class="sep" aria-hidden="true">· </i>Data Composition Engineer</span></h3>
+            <ul>
+              <li>Automated data-processing applications for client onboarding and compliance requirements.</li>
+              <li>Translated complex data rules into scalable automation logic and built internal tools that improved data flow across departments.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="role">
+          <div class="role-when">Jul 2021 – Jul 2024</div>
+          <div>
+            <h3>Pitney Bowes <span><i class="sep" aria-hidden="true">· </i>Advanced Systems Analyst</span></h3>
+            <ul>
+              <li>Led <strong>80+ SaaS implementations</strong> across finance, healthcare, and retail, improving operational efficiency by up to 50%.</li>
+              <li>Cut client onboarding by <strong>about a week on average</strong> with automation scripts and tighter requirements scoping.</li>
+              <li>Built Salesforce-integrated SQL and Power BI dashboards, and governed a $1.2M project backlog.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="role">
+          <div class="role-when">Apr 2021 – Jun 2022</div>
+          <div>
+            <h3>Simply Fractal, EZ BIN <span><i class="sep" aria-hidden="true">· </i>Project Manager Engineer (contract)</span></h3>
+            <ul>
+              <li>Reduced manufacturing costs by <strong>15%</strong> through data-driven design iterations, and shaped go-to-market scope from customer feedback.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="approach" class="section section-dark" aria-labelledby="approach-title">
       <div class="container">
-        <div class="section-label">02 / HOW I THINK</div>
+        <div class="section-label"><b>03</b> / How I think</div>
+        <h2 id="approach-title" class="visually-hidden">How I think</h2>
         <div class="principles">
           <div class="principle">
             <span>01</span>
             <h3>Start with the real problem</h3>
-            <p>A polished interface is not enough. I look for the operational constraint underneath the user request and design around it.</p>
+            <p>A polished interface is not enough. I look for the operational constraint underneath the request and design around it.</p>
           </div>
           <div class="principle">
             <span>02</span>
             <h3>Make data trustworthy</h3>
-            <p>Automation should reduce work without quietly creating bad data. Validation, confidence, and human review belong in the architecture.</p>
+            <p>Automation should reduce work without quietly creating bad data. Validation, confidence scores, and human review belong in the architecture.</p>
           </div>
           <div class="principle">
             <span>03</span>
             <h3>Build for change</h3>
-            <p>I prefer clear service boundaries, testable logic, and systems that can evolve without rewriting the whole product.</p>
+            <p>Clear service boundaries, testable logic, and rules enforced where the data lives, so the system can grow without a rewrite.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="section container about">
-      <div class="section-label">03 / ABOUT</div>
+    <section id="about" class="section container about" aria-labelledby="about-title">
+      <div class="section-label"><b>04</b> / About</div>
       <div class="about-grid">
         <div>
-          <h2>Developer with a data-first mindset.</h2>
+          <h2 id="about-title">Developer with a data-first mindset.</h2>
         </div>
         <div>
-          <p>I work at the intersection of software development, analytics, and business problem solving. My experience spans SQL, Python, automation, data workflows, dashboards, and client-facing technical work.</p>
-          <p>For portfolio projects, I like going beyond a demo: define the problem, model the data, automate the repetitive parts, test the edge cases, and explain the tradeoffs.</p>
+          <p>I work where software development, analytics, and business operations meet. I studied Systems Engineering &amp; Design at the University of Illinois, and I've spent my career on the unglamorous work that makes data dependable: pipelines, automation, dashboards, and client-facing implementation.</p>
+          <p>On personal projects I go past the demo. I define the problem, model the data, automate the repetitive parts, test the edge cases, and write down the tradeoffs.</p>
+          <dl class="about-facts">
+            <div><dt>Languages</dt><dd>SQL, Python, TypeScript / JavaScript, R, Java, C/C++</dd></div>
+            <div><dt>Data</dt><dd>SSIS, SSRS, BigQuery, Looker, Power BI, Tableau, Postgres, MariaDB</dd></div>
+            <div><dt>Automation</dt><dd>n8n, Supabase, AWS, Salesforce, AppSheet</dd></div>
+            <div><dt>Certificates</dt><dd>Google Business Intelligence · Google Data Analytics · Google AI · Six Sigma Yellow Belt</dd></div>
+          </dl>
           <div class="about-links">
-            <a href="https://github.com/sir1602" target="_blank" rel="noreferrer">GitHub ↗</a>
-            <a href="mailto:hello@example.com">Email ↗</a>
+            <a href="mailto:SirAddo11@gmail.com">SirAddo11@gmail.com</a>
+            <a href="https://github.com/sir1602" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="closing container">
+    <section class="closing container" aria-labelledby="closing-title">
       <div>
-        <div class="eyebrow">A PROJECT IS MORE THAN A SCREEN</div>
-        <h2>See how the product was designed, built, tested, and made trustworthy.</h2>
+        <div class="eyebrow">Let's talk</div>
+        <h2 id="closing-title">Need someone who makes data pipelines dependable?</h2>
+        <p>I'm happy to talk about data engineering, automation, or full-stack product work. Email is the fastest way to reach me.</p>
       </div>
-      <a class="button button-primary" href="./case-study.html">Explore case study →</a>
+      <div class="hero-actions">
+        <a class="button button-primary" href="mailto:SirAddo11@gmail.com">Email me</a>
+        <a class="button button-ghost" href="./case-study.html">Case study →</a>
+      </div>
     </section>
   </main>
 
   <footer class="footer container">
-    <span>© 2026 Simon Addo</span>
-    <span>Built around a real product case study.</span>
+    <span>© 2026 Simon Addo · Chicago, IL</span>
+    <nav aria-label="Footer">
+      <a href="mailto:SirAddo11@gmail.com">Email</a>
+      <a href="https://github.com/sir1602" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="./case-study.html">Case study</a>
+    </nav>
   </footer>
 </body>
 </html>

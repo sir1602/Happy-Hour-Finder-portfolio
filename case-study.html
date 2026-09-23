@@ -3,148 +3,296 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Happy Hour Finder case study by Simon Addo. Product design, data architecture, automation, security, and testing.">
-  <title>Happy Hour Finder — Case Study</title>
+  <title>Happy Hour Finder — Case Study · Simon Addo</title>
+  <meta name="description" content="How Simon Addo designed and built Happy Hour Finder: a cross-platform deal-discovery app with an n8n data pipeline, a confidence-based publish gate, Postgres Row Level Security, and 967 tests.">
+  <meta name="author" content="Simon Addo">
+  <meta name="theme-color" content="#f5f2eb">
+  <link rel="canonical" href="https://sir1602.github.io/Happy-Hour-Finder-portfolio/case-study.html">
+  <link rel="icon" href="./site-assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./site-assets/apple-touch-icon.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Happy Hour Finder — Case Study">
+  <meta property="og:description" content="Designing a discovery product where the hardest part isn't finding deals. It's knowing when to trust them.">
+  <meta property="og:url" content="https://sir1602.github.io/Happy-Hour-Finder-portfolio/case-study.html">
+  <meta property="og:image" content="https://sir1602.github.io/Happy-Hour-Finder-portfolio/site-assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="nav-wrap">
-    <nav class="nav container">
-      <a class="brand" href="./">SA<span>.</span></a>
+    <nav class="nav container" aria-label="Primary">
+      <a class="brand" href="./" aria-label="Simon Addo, home">SA<span>.</span></a>
       <div class="nav-links">
-        <a href="./#work">Work</a>
-        <a href="./#approach">Approach</a>
-        <a href="./#about">About</a>
-        <a class="nav-cta" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noreferrer">Source ↗</a>
+        <a href="#problem">Problem</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#tradeoffs">Tradeoffs</a>
+        <a class="nav-cta ghost" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noopener noreferrer">Source ↗</a>
+        <a class="nav-cta" href="mailto:SirAddo11@gmail.com">Contact</a>
       </div>
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <section class="case-hero container">
       <a class="back-link" href="./">← Back to portfolio</a>
-      <div class="eyebrow">CASE STUDY · 2026</div>
+      <div class="eyebrow">Case study · 2026</div>
       <h1>Happy Hour Finder</h1>
-      <p class="case-subtitle">Designing a discovery product where the hardest part is not finding deals—it's knowing when to trust them.</p>
-      <div class="case-meta">
-        <div><span>Role</span><strong>Product + Engineering</strong></div>
-        <div><span>Scope</span><strong>Mobile, Web, Backend, Data</strong></div>
-        <div><span>Location</span><strong>Chicago, IL</strong></div>
-        <div><span>Stack</span><strong>Expo · TypeScript · Supabase</strong></div>
+      <p class="case-subtitle">Designing a discovery product where the hardest part isn't finding deals. It's knowing when to trust them.</p>
+      <dl class="case-meta">
+        <div><dt>Role</dt><dd>Solo: product, design, engineering</dd></div>
+        <div><dt>Platforms</dt><dd>iOS, Android, web, one codebase</dd></div>
+        <div><dt>Backend</dt><dd>Supabase · Postgres · n8n</dd></div>
+        <div><dt>Stack</dt><dd>Expo · React Native · TypeScript</dd></div>
+      </dl>
+    </section>
+
+    <section class="case-image container" aria-label="App screens">
+      <div class="case-showcase">
+        <div class="phone"><img src="./site-assets/home.webp" width="620" height="1333" alt="Daily Highlights home screen with two active deals"></div>
+        <div class="phone"><img src="./site-assets/explore.webp" width="620" height="1215" alt="Explore screen with search, day-of-week selector, filter chips, and deal cards for Rooftop Lounge and Brick Oven"></div>
+        <div class="phone"><img src="./site-assets/deal-detail.webp" width="620" height="1333" alt="Deal detail screen for Taco Bar with hours, tags, and a Check In button"></div>
       </div>
     </section>
 
-    <section class="case-image container">
-      <img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/explore.png" alt="Happy Hour Finder explore screen">
-    </section>
-
-    <section class="case-section container">
-      <div class="case-index">01</div>
-      <div class="case-content">
-        <div class="eyebrow">THE PROBLEM</div>
-        <h2>Happy hour information is useful only when people can trust it.</h2>
-        <p>Restaurant specials are fragmented across menus, websites, social posts, and changing schedules. A discovery app can make the experience feel simple while hiding a difficult data problem underneath.</p>
-        <p>The product goal became broader than “show nearby deals.” It needed to help someone answer: <strong>What is happening, where is it, when does it end, and how confident should I be that this is still true?</strong></p>
-      </div>
-    </section>
-
-    <section class="case-section split-section">
-      <div class="container split-grid">
-        <div>
-          <div class="eyebrow">02 / PRODUCT</div>
-          <h2>A discovery loop built around action.</h2>
-          <p>The core experience moves from discovery → filtering → deal detail → visit. Daily highlights surface trending, newly added, and ending-soon deals, while Explore supports neighbourhood, deal type, price, and time-of-day filters.</p>
-        </div>
-        <div class="feature-list">
-          <div><span>01</span><strong>Explore</strong><small>Server-side full-text search and real filters.</small></div>
-          <div><span>02</span><strong>Decide</strong><small>Deal schedules, confidence states, and venue details.</small></div>
-          <div><span>03</span><strong>Visit</strong><small>Check-ins, points, badges, and visit history.</small></div>
-          <div><span>04</span><strong>Contribute</strong><small>Photo-based deal submission with user correction.</small></div>
+    <section id="problem" class="case-section container">
+      <div class="case-grid">
+        <div class="case-index">01</div>
+        <div class="case-content">
+          <div class="eyebrow">The problem</div>
+          <h2>Happy hour information is only useful if people can trust it.</h2>
+          <p>Restaurant specials are scattered across menus, websites, social posts, and schedules that change without notice. A discovery app can feel simple on the surface while hiding a hard data problem underneath.</p>
+          <p>So the goal grew past "show nearby deals." The app has to help someone answer: <strong>What's happening, where is it, when does it end, and how sure can I be that it's still true?</strong></p>
         </div>
       </div>
     </section>
 
-    <section class="case-section container">
-      <div class="case-index">03</div>
-      <div class="case-content wide">
-        <div class="eyebrow">DATA + AUTOMATION</div>
-        <h2>Automation with a safety valve.</h2>
-        <p>The content pipeline uses n8n to discover and validate deal information. OCR + LLM extraction can turn a photographed menu board into structured data, but extraction is never allowed to write directly to the catalogue.</p>
-        <div class="callout">
-          <div class="callout-number">0.80</div>
-          <div><strong>Confidence threshold</strong><p>Deals publish only when extraction confidence reaches the configured threshold <em>and</em> the time window passes the same parsing rules used by the app.</p></div>
-        </div>
-        <div class="callout">
-          <div class="callout-number">HUMAN</div>
-          <div><strong>Review queue</strong><p>Low-confidence or ambiguous records are routed for review rather than silently published. A low-confidence reading cannot overwrite a higher-confidence record.</p></div>
+    <section class="case-section tinted">
+      <div class="container case-grid">
+        <div class="case-index">02</div>
+        <div class="split-grid">
+          <div class="case-content">
+            <div class="eyebrow">The product</div>
+            <h2>A discovery loop built around action.</h2>
+            <p>The core flow goes from discovery to filtering to deal detail to an actual visit. Daily Highlights surfaces trending, new, and ending-soon deals. Explore adds server-side full-text search plus filters for neighborhood, deal type, price, and time of day.</p>
+          </div>
+          <ol class="feature-list">
+            <li><span>01</span><strong>Explore</strong><small>Server-side full-text search and real filters, plus a clustered map.</small></li>
+            <li><span>02</span><strong>Decide</strong><small>Live countdowns, schedules, reviews, and venue details.</small></li>
+            <li><span>03</span><strong>Visit</strong><small>Check-ins, points, levels, streaks, and badges.</small></li>
+            <li><span>04</span><strong>Contribute</strong><small>Submit a deal by photographing the menu, then correct what the scan read.</small></li>
+          </ol>
         </div>
       </div>
     </section>
 
-    <section class="case-section section-dark">
-      <div class="container">
+    <section id="pipeline" class="case-section container">
+      <div class="case-grid">
+        <div class="case-index">03</div>
+        <div class="case-content wide">
+          <div class="eyebrow">Data + automation</div>
+          <h2>Automation with a safety valve.</h2>
+          <p>Deals aren't hand-curated. A set of <strong>11 n8n workflows</strong> discovers venues, reads happy hours off their websites, re-checks every live deal nightly, and sends anything uncertain to a person before it reaches the app. Every source goes through <strong>one intake endpoint</strong>, so dedupe, geocoding, and the publish decision each live in exactly one place.</p>
+
+          <figure class="diagram">
+            <svg class="diagram-desktop" viewBox="0 0 900 330" role="img" aria-labelledby="pipe-title pipe-desc">
+              <title id="pipe-title">Content pipeline</title>
+              <desc id="pipe-desc">Area scans and user submissions feed a single intake API. Nightly re-validation and the intake both pass through a publish gate that requires confidence of at least 0.80 and a parseable time window. Passing deals go live; everything else waits in a human review queue. Menu photos go through OCR, which returns fields to the user's form instead of writing to the database.</desc>
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8f8a7e"/></marker>
+                <marker id="arr-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#7d5f1c"/></marker>
+              </defs>
+
+              <text class="d-label" x="20" y="16">SOURCES</text>
+              <rect class="d-box" x="20" y="30" width="190" height="62" rx="12"/>
+              <text class="d-title" x="36" y="56">Area scans</text>
+              <text class="d-sub" x="36" y="76">weekly + on-demand crawls</text>
+
+              <rect class="d-box" x="20" y="120" width="190" height="62" rx="12"/>
+              <text class="d-title" x="36" y="146">User submissions</text>
+              <text class="d-sub" x="36" y="166">app form, optional menu photo</text>
+
+              <rect class="d-box" x="20" y="250" width="190" height="62" rx="12"/>
+              <text class="d-title" x="36" y="276">Nightly re-validation</text>
+              <text class="d-sub" x="36" y="296">re-reads every live deal</text>
+
+              <rect class="d-box dark" x="270" y="58" width="180" height="96" rx="12"/>
+              <text class="d-title inv" x="286" y="86">Intake API</text>
+              <text class="d-sub inv" x="286" y="108">one webhook for every</text>
+              <text class="d-sub inv" x="286" y="124">source: dedupe, geocode,</text>
+              <text class="d-sub inv" x="286" y="140">normalize</text>
+
+              <rect class="d-box" x="270" y="196" width="180" height="58" rx="12"/>
+              <text class="d-title" x="286" y="220">Menu photo OCR</text>
+              <text class="d-sub" x="286" y="240">extracts fields, writes nothing</text>
+
+              <rect class="d-box key" x="510" y="104" width="175" height="116" rx="12"/>
+              <text class="d-label gold" x="526" y="128">PUBLISH GATE</text>
+              <text class="d-title" x="526" y="152">confidence ≥ 0.80</text>
+              <text class="d-sub" x="526" y="170">and</text>
+              <text class="d-title" x="526" y="190">time window parses</text>
+              <text class="d-sub" x="526" y="208">with the app's own parser</text>
+
+              <rect class="d-box ok" x="740" y="36" width="145" height="62" rx="12"/>
+              <text class="d-title" x="756" y="62">Active</text>
+              <text class="d-sub" x="756" y="82">live in the app</text>
+
+              <rect class="d-box hold" x="740" y="200" width="145" height="62" rx="12"/>
+              <text class="d-title" x="756" y="226">Pending</text>
+              <text class="d-sub" x="756" y="246">human review queue</text>
+
+              <path class="d-line" d="M210 61 H240 V92 H268" marker-end="url(#arr)"/>
+              <path class="d-line" d="M210 145 H240 V122 H268" marker-end="url(#arr)"/>
+              <path class="d-line" d="M190 182 V222 H268" marker-end="url(#arr)"/>
+              <path class="d-line back" d="M270 244 H160 V185" marker-end="url(#arr-gold)"/>
+              <text class="d-label gold" x="232" y="270">FIELDS RETURN TO THE FORM</text>
+              <path class="d-line" d="M450 106 H480 V150 H508" marker-end="url(#arr)"/>
+              <path class="d-line" d="M210 281 H597 V222" marker-end="url(#arr)"/>
+              <path class="d-line" d="M685 140 H712 V67 H738" marker-end="url(#arr)"/>
+              <text class="d-label" x="694" y="100">PASS</text>
+              <path class="d-line" d="M685 185 H712 V231 H738" marker-end="url(#arr)"/>
+              <text class="d-label" x="694" y="216">ELSE</text>
+              <path class="d-line" d="M812 198 V100" marker-end="url(#arr)"/>
+              <text class="d-label" x="820" y="154">APPROVE</text>
+            </svg>
+
+            <ol class="diagram-mobile">
+              <li><strong>Sources</strong> Area scans, user submissions, and a nightly re-check of every live deal.</li>
+              <li><strong>Intake API</strong> One webhook for every source handles dedupe, geocoding, and normalization.</li>
+              <li><strong>Publish gate</strong> Confidence ≥ 0.80 <em>and</em> a time window the app's own parser accepts.</li>
+              <li><strong>Active or pending</strong> Passing deals go live. Everything else waits for a person to approve it.</li>
+              <li><strong>Menu photos</strong> OCR fills in the user's form for them to check. It never writes to the database.</li>
+            </ol>
+            <figcaption>The content pipeline. Menu-photo OCR is the one path that points back toward the user: OCR misreads menu boards, so its output goes into an editable form, not the catalog.</figcaption>
+          </figure>
+
+          <p>The guardrails are enforced <strong>in SQL, not in the workflows</strong>, so they hold no matter what an LLM returns or what a scraped page says:</p>
+          <ul class="rails">
+            <li><strong>Lower confidence never wins</strong>A weaker reading can't overwrite a higher-confidence record.</li>
+            <li><strong>Good data isn't replaced by bad data</strong>A parseable time window is never overwritten by an unparseable one.</li>
+            <li><strong>Removal needs proof</strong>Unpublishing needs ≥ 0.80 confidence. A weaker "deal is gone" reading only flags a conflict.</li>
+            <li><strong>Nothing is hard-deleted</strong>The strongest automated action is moving a deal back to pending.</li>
+            <li><strong>No guessed locations</strong>A venue that can't be geocoded is refused, not dropped at the city center.</li>
+            <li><strong>AI proposes, people decide</strong>The deep-probe workflow can only file proposals. It has no write path to live deals.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="case-section section-dark">
+      <div class="container case-grid">
         <div class="case-index">04</div>
         <div class="case-content wide">
-          <div class="eyebrow">ARCHITECTURE</div>
+          <div class="eyebrow">Architecture</div>
           <h2>Keep the client thin. Put trust where the data lives.</h2>
-          <div class="architecture">
-            <div class="arch-node">Expo Router<br><small>screens</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-node">Hooks<br><small>screen logic</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-node accent-node">Services<br><small>network boundary</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-node">Supabase<br><small>Postgres · Auth · RLS</small></div>
-          </div>
-          <p>Every network read/write goes through the services layer. Database authorization is enforced with Row Level Security, while privileged actions use narrowly scoped server-side functions rather than broad client permissions.</p>
-          <p>This structure makes the app easier to test and keeps business-critical rules out of the UI.</p>
+          <ol class="architecture" aria-label="Client architecture layers">
+            <li class="arch-node">Expo Router<small>screens</small></li>
+            <li class="arch-arrow" aria-hidden="true">→</li>
+            <li class="arch-node">Hooks<small>screen logic</small></li>
+            <li class="arch-arrow" aria-hidden="true">→</li>
+            <li class="arch-node accent-node">Services<small>network boundary</small></li>
+            <li class="arch-arrow" aria-hidden="true">→</li>
+            <li class="arch-node">Supabase<small>Postgres · Auth · RLS</small></li>
+          </ol>
+          <p>Every network read and write goes through the services layer. Row Level Security enforces authorization in the database, and privileged actions like awarding points run through narrowly scoped server-side functions instead of broad client permissions.</p>
+          <p>That keeps business-critical rules out of the UI and makes each layer testable on its own.</p>
         </div>
       </div>
     </section>
 
     <section class="case-section container">
-      <div class="case-index">05</div>
-      <div class="case-content wide">
-        <div class="eyebrow">ENGINEERING QUALITY</div>
-        <h2>Build quality into the project, not at the end.</h2>
-        <div class="metrics">
-          <div><strong>967</strong><span>tests across 49 suites</span></div>
-          <div><strong>20</strong><span>SQL migrations</span></div>
-          <div><strong>14</strong><span>RLS policies</span></div>
-          <div><strong>213</strong><span>accessibility props</span></div>
+      <div class="case-grid">
+        <div class="case-index">05</div>
+        <div class="case-content wide">
+          <div class="eyebrow">Engineering quality</div>
+          <h2>Build quality in from the start, not at the end.</h2>
+          <div class="metrics">
+            <div><strong>967</strong><span>tests across 49 suites, run in CI on every PR</span></div>
+            <div><strong>20</strong><span>SQL migrations</span></div>
+            <div><strong>14</strong><span>Row Level Security policies</span></div>
+            <div><strong>11</strong><span>n8n workflows, logic mirrored in tests</span></div>
+            <div><strong>3</strong><span>platforms from one TypeScript codebase</span></div>
+          </div>
+          <p>Screen behavior lives in hooks, so most logic can be tested without rendering native maps or camera flows. The code inside the n8n workflows is mirrored in the repo and regression-tested too. The app also handles the unhappy paths: cached reads, offline banners, skeleton loading, error boundaries, and a clear screen when configuration is missing.</p>
         </div>
-        <p>The test strategy isolates screen behaviour in hooks so most logic can be tested without rendering native maps or camera flows. The app also includes cached reads, network-state feedback, skeleton loading, error boundaries, and explicit configuration-error states.</p>
       </div>
     </section>
 
-    <section class="case-section container gallery">
-      <div class="eyebrow">06 / THE PRODUCT</div>
-      <h2>From discovery to detail.</h2>
-      <div class="gallery-grid">
-        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/home.png" alt="Home screen"><figcaption>Daily highlights</figcaption></figure>
-        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/deal-detail.png" alt="Deal detail screen"><figcaption>Deal detail</figcaption></figure>
-        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/submit.png" alt="Submit deal screen"><figcaption>Submit from a photo</figcaption></figure>
-        <figure><img src="https://raw.githubusercontent.com/sir1602/Happy-Hour-Finder-portfolio/main/docs/screenshots/settings.png" alt="Rewards and settings screen"><figcaption>Rewards + profile</figcaption></figure>
+    <section class="case-section container gallery" aria-labelledby="gallery-title">
+      <div class="eyebrow">06 / The product</div>
+      <h2 id="gallery-title">From discovery to check-in.</h2>
+      <ul class="gallery-grid">
+        <li><figure><img src="./site-assets/home.webp" width="620" height="1333" loading="lazy" alt="Daily Highlights screen"><figcaption>Daily Highlights<span>Trending and ending-soon deals</span></figcaption></figure></li>
+        <li><figure><img src="./site-assets/deal-detail.webp" width="620" height="1333" loading="lazy" alt="Deal detail screen for Taco Bar"><figcaption>Deal detail<span>Hours, tags, reviews, check-in</span></figcaption></figure></li>
+        <li><figure><img src="./site-assets/submit.webp" width="620" height="1333" loading="lazy" alt="Submit a Deal form with an Add a photo of the menu option"><figcaption>Submit a deal<span>Start from a menu photo</span></figcaption></figure></li>
+        <li><figure><img src="./site-assets/visits.webp" width="620" height="1333" loading="lazy" alt="My Visits screen listing five check-ins"><figcaption>My Visits<span>Check-in history</span></figcaption></figure></li>
+        <li><figure><img src="./site-assets/settings.webp" width="620" height="1333" loading="lazy" alt="Settings screen showing level, points, and badges"><figcaption>Rewards<span>Points, levels, and badges</span></figcaption></figure></li>
+      </ul>
+    </section>
+
+    <section id="tradeoffs" class="case-section container">
+      <div class="case-grid">
+        <div class="case-index">07</div>
+        <div class="case-content wide">
+          <div class="eyebrow">Tradeoffs</div>
+          <h2>What I chose, and what it cost.</h2>
+          <div class="tradeoffs">
+            <article class="tradeoff">
+              <h3>Pending over wrong</h3>
+              <p>Anything uncertain waits for review, so coverage grows more slowly. For a discovery app, a missing deal costs less than a wrong one that sends someone across town.</p>
+            </article>
+            <article class="tradeoff">
+              <h3>Rules in SQL, not in the workflow</h3>
+              <p>The guardrails hold whatever an LLM or scraper returns. The cost: that logic is slower to change than an n8n node and needs migrations and its own tests.</p>
+            </article>
+            <article class="tradeoff">
+              <h3>One intake endpoint</h3>
+              <p>Every source takes the same path, which adds some plumbing. In return, adding a new source means pointing it at one webhook, not re-implementing dedupe.</p>
+            </article>
+            <article class="tradeoff">
+              <h3>Schedules as sibling rows</h3>
+              <p>A happy hour whose hours change by day is stored as a group of rows, not one clever string. Queries stay simple, but the pipeline needs guards so a reading for one sibling can't overwrite another.</p>
+            </article>
+          </div>
+
+          <h3 class="eyebrow" style="margin-top:44px">What's next</h3>
+          <ul class="next-list">
+            <li><strong>Server state</strong>Move data fetching onto React Query for built-in caching, retries, and loading states.</li>
+            <li><strong>Design system</strong>Consolidate screens onto the shared UI primitives and remove ad-hoc duplicates.</li>
+            <li><strong>Screen splits</strong>Break the largest screens into data hooks plus presentational components.</li>
+            <li><strong>Platform upgrade</strong>A separately tested Expo SDK upgrade to clear the remaining dev-tooling audit findings.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="takeaway container">
-      <div class="eyebrow">07 / TAKEAWAY</div>
-      <h2>The product lesson: automate the work, not the judgment.</h2>
-      <p>Happy Hour Finder started as a local discovery idea and became a systems-design exercise: how do you combine messy external information, automation, user-generated data, security, and a consumer interface without making the user absorb the complexity?</p>
+      <div class="eyebrow">08 / Takeaway</div>
+      <h2>Automate the work, not the judgment.</h2>
+      <p>Happy Hour Finder started as a local discovery idea and turned into a systems-design exercise: how do you combine messy outside information, automation, user-generated data, security, and a consumer app without making the user absorb the complexity?</p>
       <div class="hero-actions">
-        <a class="button button-primary" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noreferrer">View source on GitHub ↗</a>
-        <a class="button button-ghost" href="./">Back to portfolio</a>
+        <a class="button button-primary" href="https://github.com/sir1602/Happy-Hour-Finder-portfolio" target="_blank" rel="noopener noreferrer">View the source ↗</a>
+        <a class="button button-ghost" href="mailto:SirAddo11@gmail.com">Email me</a>
       </div>
     </section>
   </main>
 
   <footer class="footer container">
-    <span>© 2026 Simon Addo</span>
-    <span>Happy Hour Finder case study</span>
+    <span>© 2026 Simon Addo · Chicago, IL</span>
+    <nav aria-label="Footer">
+      <a href="./">Portfolio</a>
+      <a href="mailto:SirAddo11@gmail.com">Email</a>
+      <a href="https://github.com/sir1602" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
   </footer>
 </body>
 </html>
