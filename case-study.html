@@ -184,6 +184,103 @@
             <li><strong>No guessed locations</strong>A venue that can't be geocoded is refused, not dropped at the city center.</li>
             <li><strong>AI proposes, people decide</strong>The deep-probe workflow can only file proposals. It has no write path to live deals.</li>
           </ul>
+
+          <h3 class="flow-heading">The 11 workflows, in motion</h3>
+          <p>Under that picture sit eleven n8n workflows that hand work to each other. Pick a run to watch which ones take part, or select any box to see what it does.</p>
+
+          <figure class="diagram flow" id="workflow-motion">
+            <div class="flow-controls" role="group" aria-label="Choose a run">
+              <button type="button" class="flow-tab" data-flow="discover" aria-pressed="true">Find new venues</button>
+              <button type="button" class="flow-tab" data-flow="recheck" aria-pressed="false">Nightly re-check</button>
+              <button type="button" class="flow-tab" data-flow="photo" aria-pressed="false">Menu photo</button>
+              <button type="button" class="flow-tab" data-flow="review" aria-pressed="false">Human review</button>
+              <button type="button" class="flow-tab" data-flow="failure" aria-pressed="false">When it breaks</button>
+            </div>
+
+            <p class="flow-hint">Swipe the map sideways to see all of it. It follows the run as it plays.</p>
+            <div class="flow-canvas">
+              <svg viewBox="0 0 984 576" role="group" aria-labelledby="flow-title flow-desc">
+                <title id="flow-title">How the eleven n8n workflows connect</title>
+                <desc id="flow-desc">Triggers on the left: weekly discovery, burst area scan, the weekly venue batch sheet, the app, the nightly re-check and the artwork backfill. Sub-workflows in the middle: the Area Scan Engine, the Site Crawler and the Deep Probe. The intake API, with Menu Photo OCR beneath it, is the one door for automated sources into Supabase, where SQL applies the publish gate. Deals go live, or wait in a review queue that the Monday digest and review console work through. App submissions are saved straight to that queue. A failure alert watches every workflow.</desc>
+                <defs>
+                  <marker id="farr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8f8a7e"/></marker>
+                  <marker id="farr-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#7d5f1c"/></marker>
+                  <marker id="farr-alert" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#a3402b"/></marker>
+                </defs>
+
+                <g class="f-paths">
+                  <g class="f-edge" id="e-engine-crawler"><path class="f-halo" d="M420 112 V308"/><path id="p-engine-crawler" class="d-line" d="M420 112 V308" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf2-db"><path class="f-halo" d="M200 382 H730 V215 H748"/><path id="p-wf2-db" class="d-line" d="M200 382 H730 V215 H748" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-probe-queue"><path class="f-halo" d="M440 441 H700 V318 H748"/><path id="p-probe-queue" class="d-line" d="M440 441 H700 V318 H748" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf6-wf4"><path class="f-halo" d="M200 486 H720 V430 H748"/><path id="p-wf6-wf4" class="d-line" d="M200 486 H720 V430 H748" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf3-engine"><path class="f-halo" d="M200 51 H230 V72 H258"/><path id="p-wf3-engine" class="d-line" d="M200 51 H230 V72 H258" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf5-engine"><path class="f-halo" d="M200 117 H230 V92 H258"/><path id="p-wf5-engine" class="d-line" d="M200 117 H230 V92 H258" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-engine-wf1"><path class="f-halo" d="M440 81 H498"/><path id="p-engine-wf1" class="d-line" d="M440 81 H498" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-sheet-wf1"><path class="f-halo" d="M200 195 H470 V110 H498"/><path id="p-sheet-wf1" class="d-line" d="M200 195 H470 V110 H498" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-app-wf1"><path class="f-halo" d="M200 256 H480 V124 H498"/><path id="p-app-wf1" class="d-line" d="M200 256 H480 V124 H498" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf1-ocr"><path class="f-halo" d="M595 136 V178"/><path id="p-wf1-ocr" class="d-line" d="M595 136 V178" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-ocr-app"><path class="f-halo" d="M500 230 H460 V276 H202"/><path id="p-ocr-app" class="d-line back" d="M500 230 H460 V276 H202" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-app-queue"><path class="f-halo" d="M200 294 H748"/><path id="p-app-queue" class="d-line" d="M200 294 H748" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf1-db"><path class="f-halo" d="M690 100 H720 V150 H748"/><path id="p-wf1-db" class="d-line" d="M690 100 H720 V150 H748" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-db-active"><path class="f-halo" d="M845 120 V88"/><path id="p-db-active" class="d-line" d="M845 120 V88" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-db-queue"><path class="f-halo" d="M845 230 V262"/><path id="p-db-queue" class="d-line" d="M845 230 V262" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf2-crawler"><path class="f-halo" d="M200 360 H230 V339 H258"/><path id="p-wf2-crawler" class="d-line" d="M200 360 H230 V339 H258" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf2-probe"><path class="f-halo" d="M200 402 H230 V441 H258"/><path id="p-wf2-probe" class="d-line" d="M200 402 H230 V441 H258" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-queue-wf4"><path class="f-halo" d="M845 336 V382"/><path id="p-queue-wf4" class="d-line" d="M845 336 V382" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf4-db"><path class="f-halo" d="M940 419 H962 V175 H942"/><path id="p-wf4-db" class="d-line" d="M940 419 H962 V175 H942" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf6-alert"><path class="f-halo" d="M110 500 V520"/><path id="p-wf6-alert" class="d-line watch" d="M110 500 V520" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-probe-alert"><path class="f-halo" d="M350 470 V520"/><path id="p-probe-alert" class="d-line watch" d="M350 470 V520" marker-end="url(#farr)"/></g>
+                  <g class="f-edge" id="e-wf4-alert"><path class="f-halo" d="M845 454 V520"/><path id="p-wf4-alert" class="d-line watch" d="M845 454 V520" marker-end="url(#farr)"/></g>
+                </g>
+                <g class="f-traces" aria-hidden="true"></g>
+                <g class="f-labels" aria-hidden="true">
+                  <text class="d-label" x="20" y="12">TRIGGERS</text>
+                  <text class="d-label" x="260" y="12">SUB-WORKFLOWS</text>
+                  <text class="d-label" x="500" y="12">INTAKE</text>
+                  <text class="d-label" x="750" y="12">SUPABASE</text>
+                  <text class="d-label" x="852" y="108">PASS</text>
+                  <text class="d-label" x="852" y="251">ELSE</text>
+                  <text class="d-label gold" x="234" y="270">BACK TO THE FORM</text>
+                  <text class="d-label" x="520" y="288">SAVED AS PENDING</text>
+                  <text class="d-label" x="520" y="376">VERDICTS</text>
+                  <text class="d-label" x="520" y="435">PROPOSALS ONLY</text>
+                  <text class="d-label" transform="translate(971 252) rotate(90)">APPROVE</text>
+                </g>
+
+                <g class="f-node" id="n-wf3" tabindex="0" role="button" aria-label="Weekly discovery: show details"><rect class="d-box" x="20" y="24" width="180" height="54" rx="12"/><text class="d-title" x="34" y="47">Weekly discovery</text><text class="d-sub" x="34" y="66">WF3 · Chicago, weekly</text></g>
+                <g class="f-node" id="n-wf5" tabindex="0" role="button" aria-label="Burst area scan: show details"><rect class="d-box" x="20" y="90" width="180" height="54" rx="12"/><text class="d-title" x="34" y="113">Burst area scan</text><text class="d-sub" x="34" y="132">WF5 · any city, from a form</text></g>
+                <g class="f-node" id="n-sheet" tabindex="0" role="button" aria-label="Venue batch sheet: show details"><rect class="d-box" x="20" y="168" width="180" height="54" rx="12"/><text class="d-title" x="34" y="191">Venue batch sheet</text><text class="d-sub" x="34" y="210">~25 Chicago venues a week</text></g>
+                <g class="f-node" id="n-app" tabindex="0" role="button" aria-label="The app: show details"><rect class="d-box" x="20" y="240" width="180" height="64" rx="12"/><text class="d-title" x="34" y="264">The app</text><text class="d-sub" x="34" y="283">deal submissions</text><text class="d-sub" x="34" y="299">and menu photos</text></g>
+                <g class="f-node" id="n-wf2" tabindex="0" role="button" aria-label="Nightly re-check: show details"><rect class="d-box" x="20" y="350" width="180" height="58" rx="12"/><text class="d-title" x="34" y="373">Nightly re-check</text><text class="d-sub" x="34" y="392">WF2 · 4 AM, 20 venues</text><g class="f-ai" aria-hidden="true"><rect x="168" y="359" width="22" height="14" rx="7"/><text x="179" y="369.5">AI</text></g></g>
+                <g class="f-node" id="n-wf6" tabindex="0" role="button" aria-label="Artwork backfill: show details"><rect class="d-box" x="20" y="446" width="180" height="54" rx="12"/><text class="d-title" x="34" y="469">Artwork backfill</text><text class="d-sub" x="34" y="488">WF6 · venue photos</text></g>
+                <g class="f-node" id="n-engine" tabindex="0" role="button" aria-label="Area Scan Engine: show details"><rect class="d-box" x="260" y="50" width="180" height="62" rx="12"/><text class="d-title" x="274" y="73">Area Scan Engine</text><text class="d-sub" x="274" y="92">Maps sweep, then read sites</text><g class="f-ai" aria-hidden="true"><rect x="408" y="59" width="22" height="14" rx="7"/><text x="419" y="69.5">AI</text></g></g>
+                <g class="f-node" id="n-crawler" tabindex="0" role="button" aria-label="Site Crawler: show details"><rect class="d-box" x="260" y="310" width="180" height="58" rx="12"/><text class="d-title" x="274" y="333">Site Crawler</text><text class="d-sub" x="274" y="352">plain HTTP, no model calls</text></g>
+                <g class="f-node" id="n-probe" tabindex="0" role="button" aria-label="Deep Probe: show details"><rect class="d-box" x="260" y="412" width="180" height="58" rx="12"/><text class="d-title" x="274" y="435">Deep Probe</text><text class="d-sub" x="274" y="454">for sites HTTP can&#x27;t read</text><g class="f-ai" aria-hidden="true"><rect x="408" y="421" width="22" height="14" rx="7"/><text x="419" y="431.5">AI</text></g></g>
+                <g class="f-node" id="n-wf1" tabindex="0" role="button" aria-label="Intake API: show details"><rect class="d-box dark" x="500" y="40" width="190" height="96" rx="12"/><text class="d-title inv" x="514" y="64">Intake API</text><text class="d-sub inv" x="514" y="83">WF1 · one door for every</text><text class="d-sub inv" x="514" y="99">automated source: dedupe,</text><text class="d-sub inv" x="514" y="115">geocode, normalize</text><g class="f-ai" aria-hidden="true"><rect x="658" y="49" width="22" height="14" rx="7"/><text x="669" y="59.5">AI</text></g></g>
+                <g class="f-node" id="n-ocr" tabindex="0" role="button" aria-label="Menu Photo OCR: show details"><rect class="d-box" x="500" y="180" width="190" height="58" rx="12"/><text class="d-title" x="514" y="203">Menu Photo OCR</text><text class="d-sub" x="514" y="222">reads it, writes nothing</text><g class="f-ai" aria-hidden="true"><rect x="658" y="189" width="22" height="14" rx="7"/><text x="669" y="199.5">AI</text></g></g>
+                <g class="f-node" id="n-active" tabindex="0" role="button" aria-label="Live in the app: show details"><rect class="d-box ok" x="750" y="30" width="190" height="56" rx="12"/><text class="d-title" x="764" y="53">Live in the app</text><text class="d-sub" x="764" y="72">active deals</text></g>
+                <g class="f-node" id="n-db" tabindex="0" role="button" aria-label="Publish gate: show details"><rect class="d-box key" x="750" y="120" width="190" height="110" rx="12"/><text class="d-label gold" x="766" y="144">PUBLISH GATE, IN SQL</text><text class="d-title" x="766" y="168">confidence ≥ 0.80</text><text class="d-sub" x="766" y="186">and</text><text class="d-title" x="766" y="206">a parseable window</text></g>
+                <g class="f-node" id="n-queue" tabindex="0" role="button" aria-label="Review queue: show details"><rect class="d-box hold" x="750" y="264" width="190" height="72" rx="12"/><text class="d-title" x="764" y="288">Review queue</text><text class="d-sub" x="764" y="307">pending deals, proposed</text><text class="d-sub" x="764" y="323">fixes, venue photos</text></g>
+                <g class="f-node" id="n-wf4" tabindex="0" role="button" aria-label="Review digest: show details"><rect class="d-box" x="750" y="384" width="190" height="70" rx="12"/><text class="d-title" x="764" y="408">Review digest</text><text class="d-sub" x="764" y="427">WF4 · Monday email</text><text class="d-sub" x="764" y="443">and a live console</text></g>
+                <g class="f-node f-alert" id="n-alert" tabindex="0" role="button" aria-label="Failure Alert: show details"><rect class="d-box" x="20" y="522" width="920" height="40" rx="12"/><text class="d-title" x="36" y="547">Failure Alert</text><text class="d-sub" x="148" y="547">watches every workflow: a crash, or a schedule that never fired, pushes to my phone and then sends an email</text></g>
+
+                <g class="f-dots" aria-hidden="true"></g>
+              </svg>
+            </div>
+
+            <div class="flow-status">
+              <div class="flow-readout">
+                <p class="flow-caption" aria-live="polite"><span class="flow-step">Find new venues · 1 of 5</span><span class="flow-text">A weekly Chicago scan, or a form I can open on my phone in any city, hands an area to the Area Scan Engine. It sweeps Google Maps and drops venues already on file.</span></p>
+                <div class="flow-progress" aria-hidden="true"><span></span></div>
+              </div>
+              <div class="flow-buttons">
+                <button type="button" class="flow-btn" data-action="prev" aria-label="Previous step">←</button>
+                <button type="button" class="flow-btn" data-action="play" aria-label="Pause">❚❚</button>
+                <button type="button" class="flow-btn" data-action="next" aria-label="Next step">→</button>
+              </div>
+            </div>
+            <figcaption>Gold traces the run in progress. "AI" marks the workflows that call Gemini. The model only reads and proposes: what it reads reaches the database through SQL functions that enforce the guardrails above, and app submissions always wait for review.</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -294,5 +391,6 @@
       <a href="https://github.com/sir1602" target="_blank" rel="noopener noreferrer">GitHub</a>
     </nav>
   </footer>
+  <script src="./workflow-motion.js" defer></script>
 </body>
 </html>
