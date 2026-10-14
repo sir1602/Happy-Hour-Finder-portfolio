@@ -16,6 +16,8 @@
   --dark-2: #20201d;
   --dark-line: #3b3b35;
   --dark-muted: #b3afa3;     /* 8.3:1 on --dark */
+  --alert: #d0583e;          /* decorative: failure run in the workflow diagram */
+  --alert-ink: #a3402b;
   --radius: 24px;
   --display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -410,6 +412,56 @@ p { text-wrap: pretty; }
 
   .footer { display: block; }
   .footer nav { margin-top: 8px; }
+}
+
+/* Workflow motion diagram */
+.flow-heading { font: 600 24px/1.2 var(--display); letter-spacing: -0.02em; margin: 64px 0 8px; }
+.flow { margin-top: 24px; }
+.flow-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.flow-tab, .flow-btn {
+  font: 600 13px var(--display); color: var(--body); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.flow-tab:hover, .flow-btn:hover { border-color: var(--accent); }
+.flow-tab[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.flow-btn { width: 38px; height: 34px; padding: 0; line-height: 1; }
+.flow-canvas { overflow-x: auto; scrollbar-width: thin; }
+.flow-canvas svg { min-width: 760px; }
+.flow-hint { display: none; }
+/* The controls do nothing without the script, so the static map shows alone. */
+.flow:not(.is-live) .flow-controls, .flow:not(.is-live) .flow-status, .flow:not(.is-live) .flow-hint { display: none !important; }
+
+.flow .f-node, .flow .f-paths path, .flow .f-labels text { transition: opacity .45s ease; }
+.flow .f-paths path { transition: opacity .45s ease, stroke .45s ease; }
+.flow svg.is-running .f-node:not(.on) { opacity: .38; }
+.flow svg.is-running .f-paths path:not(.on) { opacity: .25; }
+.flow svg.is-running .f-labels text { opacity: .45; }
+.flow .f-paths path.on {
+  stroke: var(--accent-ink); stroke-width: 2; stroke-dasharray: 6 5;
+  animation: flow-dash 0.9s linear infinite;
+}
+.flow .f-node.on .d-box:not(.dark) { stroke: var(--accent); stroke-width: 2; }
+.flow .f-node.on .d-box.dark { stroke: var(--accent); stroke-width: 2.5; }
+.flow .d-line.watch { stroke-dasharray: 2 4; }
+.flow .f-dot { fill: var(--accent); stroke: var(--ink); stroke-width: 1.5; }
+.flow svg.is-alert .f-paths path.on { stroke: var(--alert-ink); }
+.flow svg.is-alert .f-dot { fill: var(--alert); }
+.flow svg.is-alert .f-node.on .d-box { stroke: var(--alert); }
+.flow svg.is-alert .f-alert.on .d-box { fill: #fbe9e4; animation: flow-pulse 1.2s ease-in-out infinite; }
+@keyframes flow-dash { to { stroke-dashoffset: -11; } }
+@keyframes flow-pulse { 50% { stroke-width: 4; } }
+
+.flow-status { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-top: 16px; }
+.flow .flow-caption { margin: 0; min-height: 4.8em; font-size: 15px; color: var(--body); }
+.flow-step { display: block; font: 700 11px var(--display); letter-spacing: .8px; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 2px; }
+.flow-buttons { display: flex; gap: 6px; flex: none; }
+
+@media (max-width: 800px) {
+  .flow-heading { margin-top: 48px; }
+  .flow-status { flex-direction: column-reverse; gap: 10px; }
+  .flow .flow-caption { min-height: 6.4em; }
+  .flow .flow-hint { display: block; margin: -6px 0 10px; font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
