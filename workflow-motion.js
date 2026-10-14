@@ -1,16 +1,17 @@
+/* eslint-env browser */
 // Animated map of the n8n workflows on the case study. Each run is a list of steps; a step lights
 // its nodes and lines and sends a dot along each line. Without JS the full map still shows.
 (function () {
-  var fig = document.getElementById('workflow-motion');
+  let fig = document.getElementById('workflow-motion');
   if (!fig) return;
   fig.classList.add('is-live');
-  var svg = fig.querySelector('svg');
-  var dotsLayer = svg.querySelector('.f-dots');
-  var NS = 'http://www.w3.org/2000/svg';
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let svg = fig.querySelector('svg');
+  let dotsLayer = svg.querySelector('.f-dots');
+  let NS = 'http://www.w3.org/2000/svg';
+  let reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // "back" sends the dot there and back along one line: a call that returns its result.
-  var FLOWS = {
+  let FLOWS = {
     discover: { name: 'Find new venues', steps: [
       { nodes: ['wf3', 'wf5', 'engine'], paths: ['wf3-engine', 'wf5-engine'],
         text: 'Every Sunday, or from a form on my phone in a new city, the Area Scan Engine sweeps Google Maps and drops venues already on file.' },
@@ -61,14 +62,14 @@
     ] }
   };
 
-  var STEP_MS = 4600, TRAVEL_MS = 1300;
-  var tabs = fig.querySelectorAll('.flow-tab');
-  var stepEl = fig.querySelector('.flow-step');
-  var textEl = fig.querySelector('.flow-text');
-  var playBtn = fig.querySelector('[data-action="play"]');
-  var order = Object.keys(FLOWS);
-  var flowKey = order[0], step = 0, playing = !reduced.matches, visible = false;
-  var timer = null, raf = null;
+  let STEP_MS = 4600, TRAVEL_MS = 1300;
+  let tabs = fig.querySelectorAll('.flow-tab');
+  let stepEl = fig.querySelector('.flow-step');
+  let textEl = fig.querySelector('.flow-text');
+  let playBtn = fig.querySelector('[data-action="play"]');
+  let order = Object.keys(FLOWS);
+  let flowKey = order[0], step = 0, playing = !reduced.matches, visible = false;
+  let timer = null, raf = null;
 
   function el(id) { return svg.getElementById ? svg.getElementById(id) : document.getElementById(id); }
 
@@ -81,26 +82,26 @@
   function animateDots(paths) {
     clearDots();
     if (reduced.matches || !paths.length) return;
-    var runs = paths.map(function (p) {
-      var spec = typeof p === 'string' ? { id: p } : p;
-      var path = el('p-' + spec.id);
-      var dot = document.createElementNS(NS, 'circle');
+    let runs = paths.map(function (p) {
+      let spec = typeof p === 'string' ? { id: p } : p;
+      let path = el('p-' + spec.id);
+      let dot = document.createElementNS(NS, 'circle');
       dot.setAttribute('r', '5');
       dot.setAttribute('class', 'f-dot');
       dotsLayer.appendChild(dot);
       return { path: path, len: path.getTotalLength(), back: spec.back, dot: dot };
     });
-    var start = null;
+    let start = null;
     function frame(t) {
       if (start === null) start = t;
-      var done = true;
+      let done = true;
       runs.forEach(function (r) {
-        var total = r.back ? TRAVEL_MS * 2 : TRAVEL_MS;
-        var k = Math.min((t - start) / total, 1);
+        let total = r.back ? TRAVEL_MS * 2 : TRAVEL_MS;
+        let k = Math.min((t - start) / total, 1);
         if (k < 1) done = false;
-        var pos = r.back ? (k < 0.5 ? k * 2 : 2 - k * 2) : k;
+        let pos = r.back ? (k < 0.5 ? k * 2 : 2 - k * 2) : k;
         pos = pos < 0.5 ? 2 * pos * pos : 1 - Math.pow(-2 * pos + 2, 2) / 2;
-        var pt = r.path.getPointAtLength(pos * r.len);
+        let pt = r.path.getPointAtLength(pos * r.len);
         r.dot.setAttribute('cx', pt.x);
         r.dot.setAttribute('cy', pt.y);
         r.dot.style.opacity = k >= 1 ? 0 : 1;
@@ -111,15 +112,15 @@
   }
 
   function render() {
-    var flow = FLOWS[flowKey], s = flow.steps[step];
+    let flow = FLOWS[flowKey], s = flow.steps[step];
     svg.classList.add('is-running');
     svg.classList.toggle('is-alert', !!s.alert);
     svg.querySelectorAll('.f-node').forEach(function (n) {
       n.classList.toggle('on', s.nodes.indexOf(n.id.slice(2)) !== -1);
     });
-    var ids = s.paths.map(function (p) { return typeof p === 'string' ? p : p.id; });
+    let ids = s.paths.map(function (p) { return typeof p === 'string' ? p : p.id; });
     svg.querySelectorAll('.f-paths path').forEach(function (p) {
-      var on = ids.indexOf(p.id.slice(2)) !== -1;
+      let on = ids.indexOf(p.id.slice(2)) !== -1;
       p.classList.toggle('on', on);
       p.setAttribute('marker-end', on ? 'url(#farr-on)' : 'url(#farr)');
     });
@@ -131,16 +132,16 @@
   }
 
   // On a narrow screen the map scrolls sideways; keep the lit nodes in view.
-  var canvas = fig.querySelector('.flow-canvas');
+  let canvas = fig.querySelector('.flow-canvas');
   function follow(nodes) {
     if (canvas.scrollWidth <= canvas.clientWidth + 1) return;
-    var minX = Infinity, maxX = -Infinity;
+    let minX = Infinity, maxX = -Infinity;
     nodes.forEach(function (id) {
-      var b = el('n-' + id).getBBox();
+      let b = el('n-' + id).getBBox();
       minX = Math.min(minX, b.x); maxX = Math.max(maxX, b.x + b.width);
     });
-    var scale = svg.getBoundingClientRect().width / 980;
-    var left = ((minX + maxX) / 2) * scale - canvas.clientWidth / 2;
+    let scale = svg.getBoundingClientRect().width / 980;
+    let left = ((minX + maxX) / 2) * scale - canvas.clientWidth / 2;
     canvas.scrollTo({ left: Math.max(0, left), behavior: reduced.matches ? 'auto' : 'smooth' });
   }
 
@@ -150,7 +151,7 @@
   }
 
   function advance() {
-    var flow = FLOWS[flowKey];
+    let flow = FLOWS[flowKey];
     if (step < flow.steps.length - 1) step++;
     else { flowKey = order[(order.indexOf(flowKey) + 1) % order.length]; step = 0; }
     render(); schedule();
