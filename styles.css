@@ -432,29 +432,42 @@ p { text-wrap: pretty; }
 /* The controls do nothing without the script, so the static map shows alone. */
 .flow:not(.is-live) .flow-controls, .flow:not(.is-live) .flow-status, .flow:not(.is-live) .flow-hint { display: none !important; }
 
-.flow .f-node, .flow .f-paths path, .flow .f-labels text { transition: opacity .45s ease; }
-.flow .f-paths path { transition: opacity .45s ease, stroke .45s ease; }
-.flow svg.is-running .f-node:not(.on) { opacity: .38; }
-.flow svg.is-running .f-paths path:not(.on) { opacity: .25; }
-.flow svg.is-running .f-labels text { opacity: .45; }
-.flow .f-paths path.on {
-  stroke: var(--accent-ink); stroke-width: 2; stroke-dasharray: 6 5;
-  animation: flow-dash 0.9s linear infinite;
-}
-.flow .f-node.on .d-box:not(.dark) { stroke: var(--accent); stroke-width: 2; }
-.flow .f-node.on .d-box.dark { stroke: var(--accent); stroke-width: 2.5; }
+.flow .f-halo { fill: none; stroke: var(--paper); stroke-width: 7; }
+.flow .f-labels text { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.flow .f-ai rect { fill: #fff6e0; stroke: #c99a3a; stroke-width: 1; }
+.flow .f-ai text { font: 700 9px var(--display); letter-spacing: .5px; fill: var(--accent-ink); text-anchor: middle; }
 .flow .d-line.watch { stroke-dasharray: 2 4; }
+
+.flow .f-node { cursor: pointer; outline: none; transition: opacity .5s ease; }
+.flow .f-node .d-box { transition: stroke .3s, stroke-width .3s; }
+.flow .f-node:hover .d-box { stroke: var(--accent); stroke-width: 2; }
+.flow .f-node:focus-visible .d-box { stroke: var(--accent-ink); stroke-width: 3; }
+.flow .f-edge .d-line { transition: opacity .5s ease; }
+.flow .f-labels text { transition: opacity .5s ease; }
+.flow svg.is-running .f-node:not(.on) { opacity: .4; }
+.flow svg.is-running .f-edge:not(.on) .d-line { opacity: .28; }
+.flow svg.is-running .f-edge.on .d-line { opacity: .5; }
+.flow svg.is-running .f-labels text { opacity: .55; }
+.flow .f-node.on .d-box { stroke: var(--accent); stroke-width: 2; }
+.flow .f-node.on .d-box.dark { stroke-width: 2.5; }
+.flow .f-node.focus .d-box { stroke: var(--accent-ink); stroke-width: 2.5; }
+.flow .f-node.hit .d-box { animation: flow-hit .7s ease-out; }
+.flow .f-trace { fill: none; stroke: var(--accent-ink); stroke-width: 2.25; stroke-linecap: round; stroke-dasharray: none; }
 .flow .f-dot { fill: var(--accent); stroke: var(--ink); stroke-width: 1.5; }
-.flow svg.is-alert .f-paths path.on { stroke: var(--alert-ink); }
-.flow svg.is-alert .f-dot { fill: var(--alert); }
+.flow .f-glow { fill: var(--accent); opacity: .25; }
+.flow svg.is-alert .f-trace { stroke: var(--alert-ink); }
+.flow svg.is-alert .f-dot, .flow svg.is-alert .f-glow { fill: var(--alert); }
 .flow svg.is-alert .f-node.on .d-box { stroke: var(--alert); }
-.flow svg.is-alert .f-alert.on .d-box { fill: #fbe9e4; animation: flow-pulse 1.2s ease-in-out infinite; }
-@keyframes flow-dash { to { stroke-dashoffset: -11; } }
+.flow svg.is-alert .f-alert.on .d-box { fill: #fbe9e4; animation: flow-pulse 1.4s ease-in-out infinite; }
+@keyframes flow-hit { 0% { stroke-width: 5; } 100% { stroke-width: 2; } }
 @keyframes flow-pulse { 50% { stroke-width: 4; } }
 
 .flow-status { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-top: 16px; }
+.flow-readout { flex: 1; min-width: 0; max-width: 720px; }
 .flow .flow-caption { margin: 0; min-height: 4.8em; font-size: 15px; color: var(--body); }
 .flow-step { display: block; font: 700 11px var(--display); letter-spacing: .8px; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 2px; }
+.flow-progress { height: 2px; margin-top: 10px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.flow-progress span { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
 .flow-buttons { display: flex; gap: 6px; flex: none; }
 
 @media (max-width: 800px) {
