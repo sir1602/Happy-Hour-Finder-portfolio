@@ -3,6 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Measurement: consent defaults + Google Tag Manager.
+       Paste your container ID below. Until then, GTM does not load. -->
+  <script>
+    window.GTM_ID = 'GTM-XXXXXXX';
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    // No ad signals anywhere: this site runs no ads.
+    // Analytics off by default in the EEA, UK and Switzerland.
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE',
+               'IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE',
+               'IS','LI','NO','GB','CH']
+    });
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'granted'
+    });
+  </script>
+  <script>
+    (function(w,d,s,l,i){
+      if (!/^GTM-[A-Z0-9]+$/.test(i) || i === 'GTM-XXXXXXX') return;
+      w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',window.GTM_ID);
+  </script>
   <title>Happy Hour Finder — Case Study · Simon Addo</title>
   <meta name="description" content="How Simon Addo designed and built Happy Hour Finder: a cross-platform deal-discovery app with an n8n data pipeline, a confidence-based publish gate, Postgres Row Level Security, and 967 tests.">
   <meta name="author" content="Simon Addo">
@@ -390,6 +423,7 @@
       <a href="mailto:SirAddo11@gmail.com">Email</a>
       <a href="https://github.com/sir1602" target="_blank" rel="noopener noreferrer">GitHub</a>
     </nav>
+    <p class="footer-note">This site uses Google Analytics to see which pages visitors read. No ad tracking.</p>
   </footer>
   <script src="./workflow-motion.js" defer></script>
 </body>
