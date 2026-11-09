@@ -21,10 +21,11 @@
     });
   </script>
 
-  <!-- 2. Google Tag Manager (loads only once a real container ID is set) -->
+  <!-- 2. Google Tag Manager. Leave this block as is: it skips loading only
+       while GTM_ID above is still the GTM-XXXXXXX placeholder. -->
   <script>
     (function(w,d,s,l,i){
-      if (!/^GTM-[A-Z0-9]+$/.test(i) || i === 'GTM-KX5BL5Z3') return;
+      if (!/^GTM-[A-Z0-9]+$/.test(i) || i === 'GTM-XXXXXXX') return;
       w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
       var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
       j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
