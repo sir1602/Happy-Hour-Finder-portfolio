@@ -213,6 +213,7 @@ p { text-wrap: pretty; }
 }
 .footer nav { display: flex; gap: 18px; }
 .footer a:hover { color: var(--ink); }
+.footer-note { flex-basis: 100%; margin: 0; font-size: 12px; }
 
 /* ==========================================================================
    Case study

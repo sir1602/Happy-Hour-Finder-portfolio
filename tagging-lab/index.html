@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Tagging Lab Store</title>
+
+  <!-- 1. Consent defaults: must run BEFORE Tag Manager loads.
+       Everything starts denied so the banner below controls measurement. -->
+  <script>
+    window.GTM_ID = 'GTM-KX5BL5Z3'; // same container ID as the portfolio pages
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500
+    });
+  </script>
+
+  <!-- 2. Google Tag Manager. Leave this block as is: it skips loading only
+       while GTM_ID above is still the all-X placeholder. -->
+  <script>
+    (function(w,d,s,l,i){
+      if (!/^GTM-[A-Z0-9]+$/.test(i) || /^GTM-X+$/.test(i)) return;
+      w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',window.GTM_ID);
+  </script>
+
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; color: #1d1d1b; }
+    #banner { border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin-bottom: 24px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    button { padding: 8px 14px; margin: 4px 4px 0 0; cursor: pointer; }
+    input { padding: 8px; width: 60%; }
+    #status { color: #555; font-family: monospace; }
+    .note { color: #777; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div id="banner">
+    This lab page uses cookies for measurement.
+    <div>
+      <button id="accept">Accept all</button>
+      <button id="reject">Reject all</button>
+    </div>
+  </div>
+
+  <h1>Tagging Lab Store</h1>
+  <p class="note">A test page for practicing Google Tag Manager and GA4. Nothing here is for sale.</p>
+
+  <div class="card">
+    <strong>Lab Mug</strong> &middot; $18.00
+    <div>
+      <button id="add">Add to cart</button>
+      <button id="buy">Buy now</button>
+    </div>
+  </div>
+
+  <form class="card" id="lead">
+    <label for="email">Request a quote</label><br>
+    <input type="email" id="email" placeholder="test@example.com" required>
+    <button type="submit">Send</button>
+  </form>
+
+  <p id="status" aria-live="polite"></p>
+
+  <script>
+    const item = { item_id: 'MUG-01', item_name: 'Lab Mug', price: 18.00, quantity: 1 };
+    const show = (msg) => { document.getElementById('status').textContent = msg; };
+
+    // 3. Consent updates from the banner
+    function setConsent(granted) {
+      const v = granted ? 'granted' : 'denied';
+      gtag('consent', 'update', {
+        ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v
+      });
+      document.getElementById('banner').hidden = true;
+      show('consent ' + v);
+    }
+    document.getElementById('accept').onclick = () => setConsent(true);
+    document.getElementById('reject').onclick = () => setConsent(false);
+
+    // 4. Ecommerce events (clear the previous ecommerce object first)
+    document.getElementById('add').onclick = () => {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: 'add_to_cart',
+        ecommerce: { currency: 'USD', value: 18.00, items: [item] }
+      });
+      show('pushed add_to_cart');
+    };
+
+    document.getElementById('buy').onclick = () => {
+      const transactionId = 'T' + Date.now();
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: 'purchase',
+        ecommerce: { transaction_id: transactionId, currency: 'USD', value: 18.00, items: [item] }
+      });
+      show('pushed purchase ' + transactionId);
+    };
+
+    // 5. Lead event with user data (use a fake email)
+    document.getElementById('lead').onsubmit = (e) => {
+      e.preventDefault();
+      dataLayer.push({
+        event: 'generate_lead',
+        user_data: { email: document.getElementById('email').value.trim().toLowerCase() }
+      });
+      show('pushed generate_lead');
+    };
+  </script>
+</body>
+</html>
